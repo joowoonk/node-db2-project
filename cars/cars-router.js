@@ -31,14 +31,13 @@ router.get("/:id", (req, res) => {
 
 router.post("/", (req, res) => {
   const carsData = req.body;
+  console.log("post");
   db("cars")
     .insert(carsData)
     .then((ids) => {
-      db("cars")
-        .where({ id: ids[0] })
-        .then((newCarEntry) => {
-          res.status(201).json(newCarEntry);
-        });
+      db("cars").then((newCarEntry) => {
+        res.status(201).json({ data: newCarEntry });
+      });
     })
     .catch((err) => {
       console.log("POST error", err);
